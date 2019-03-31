@@ -4,19 +4,24 @@
   "description": "Aula de NodeJS",
   "main": "aula-1.js",
   "scripts": {
-    "start": "nodemon server/bin/www",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "export NODE_ENV=dev&& nodemon server/bin/www",
+    "test": "export NODE_ENV=test&& nyc mocha test/* --exit"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bluebird": "^3.5.3",
     "body-parser": "^1.18.3",
+    "ejs": "^2.6.1",
     "express": "^4.16.4",
-    "mongojs": "^2.6.0"
+    "mongojs": "^2.6.0",
+    "redis": "^2.8.0"
   },
   "devDependencies": {
     "mocha": "^6.0.2",
-    "nodemon": "^1.18.10"
+    "nodemon": "^1.18.10",
+    "nyc": "^13.3.0",
+    "supertest": "^4.0.2"
   }
 }

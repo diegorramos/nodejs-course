@@ -1,2 +1,4 @@
 /node_modules
 aula-1.js
+/coverage
+/.nyc_output

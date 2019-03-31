@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title> Document</title>
+</head>
+<body>
+  <h2><%= title%></h2>
+
+  <table id="data"></table>
+
+  <script type="text/javascript">
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/experiences', true);
+    xhr.send()
+
+    let $data = document.querySelector('#data')
+
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === 4) {
+        let json = JSON.parse(xhr.responseText)
+
+        $data.innerHTML = json.map(item => {
+          return `<tr>
+          <td>${item._id}</td>
+          <td>${item.name}</td>
+          </tr>
+          `
+        }).join('')
+      }
+    }
+  </script>
+</body>
+</html>

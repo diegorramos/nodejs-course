@@ -1,39 +1,61 @@
 const repository = require('../repository/ExperienceRepository')
+const redis = require('../config/redis')
+
 const ExperienceController = {
 
-	list(request, response, next) {
-		repository.list((err, data) => {
-			response.send(data)
+	listFromCache(request, response, next) {
+		redis.getAsync('diegorocha:list')
+		.then(result => {
+			let data = JSON.parse(result)
+			response.json(data)
 		})
+		.catch(err => next())
+	},
+
+	list(request, response, next) {
+		repository.listAsync()
+		.then(data => {
+			redis.setAsync('diegorocha:list', JSON.stringify(data)).catch(err => console.log(err))
+			response.json(data)
+		})
+		.catch(next)
 	},
 
 	byId(request, response, next) {
 		const id = request.params.id
-		repository.byId(id,  (err, data) => {
-			response.send(data)
-		})
+		repository.byIdAsync(id)
+			.then(data => {
+				response.send(data)
+			})
+			.catch(next)
 	},
 
 	create(request, response, next) {
 		let body = request.body
-		repository.create(body,  (err, data) => {
-			response.status(201).json(data)
-		})
+		repository.createAsync(body)
+			.then(data => {
+				response.status(201).json(data)
+			})
+			.catch(next)
 	},
 
 	update(request, response, next) {
 		let id = request.params.id
 		let body = request.body
-		repository.update(id, body, (err, data) => {
-			response.json(data)
-		})
+		repository.updateAsync(id, body)
+			.then(data => {
+				response.json(data)
+			})
+			.catch(next)
 	},
 
 	delete(request, response, next) {
 		let id = request.params.id
-		repository.delete(id, (err, data) => {
-			response.sendStatus(204)
-		})
+		repository.deleteAsync(id)
+			.then(data => {
+				response.sendStatus(204)
+			})
+			.catch(next)
 	},
 
 	validateId(request, response, next) {

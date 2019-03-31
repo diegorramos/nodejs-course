@@ -1,4 +1,5 @@
 const db = require('../config/mongo')
+const bird = require('bluebird')
 
 const ExperienceRepository = {
 
@@ -34,4 +35,4 @@ const ExperienceRepository = {
 
 }
 
-module.exports = ExperienceRepository
+module.exports = bird.promisifyAll(ExperienceRepository)

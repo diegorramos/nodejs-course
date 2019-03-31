@@ -4,7 +4,11 @@ const router = require('express').Router()
 
 router.get('/', AppController.index)
 
-router.get('/experiences', ExperienceController.list)
+router.get('/novatec', (request, response, next) => {
+	response.render('index', { title: 'Domingo de Curso' })
+})
+
+router.get('/experiences', ExperienceController.listFromCache, ExperienceController.list)
 router.post('/experiences', ExperienceController.create)
 
 router.use('/experiences/:id', ExperienceController.validateId)
