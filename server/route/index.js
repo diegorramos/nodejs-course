@@ -1,6 +1,8 @@
 const AppController = require('../controller/AppController')
 const ExperienceController = require('../controller/ExperienceController')
 const router = require('express').Router()
+const jwt = require('jwt-simple')
+const SECRET = 'na-boa'
 
 router.get('/', AppController.index)
 
